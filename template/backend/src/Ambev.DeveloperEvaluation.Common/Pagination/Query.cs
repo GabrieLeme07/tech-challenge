@@ -1,9 +1,6 @@
-﻿namespace Ambev.DeveloperEvaluation.Common.Lambda;
+﻿namespace Ambev.DeveloperEvaluation.Application.Common;
 
-/// <summary>
-/// Search and pagination parameters for enumerable queries
-/// </summary>
-public class QueryParams
+public class Query
 {
     /// <summary>
     /// Default registry per page
@@ -57,9 +54,9 @@ public class QueryParams
     /// <param name="page">Page number</param>
     /// <param name="take">Quantity of registry per page</param>
     /// <param name="search">Free text search parameter</param>
-    public static QueryParams GetFromPage(int page, int take = DefaultTakeValue, string search = null)
+    public static Query GetFromPage(int page, int take = DefaultTakeValue, string search = null)
     {
-        return new QueryParams
+        return new Query
         {
             Skip = (page - 1) * take,
             Take = take,
@@ -74,7 +71,7 @@ public class QueryParams
     /// <param name="take">Quantity of registry per page</param>
     /// <param name="search">Free text search parameter</param>
     /// <param name="orderBy">Order by fields</param>
-    public static QueryParams GetFromPage(int page, int take = DefaultTakeValue, string search = null, string orderBy = null)
+    public static Query GetFromPage(int page, int take = DefaultTakeValue, string search = null, string orderBy = null)
     {
         var result = GetFromPage(page, take, search);
         result.OrderBy = orderBy;

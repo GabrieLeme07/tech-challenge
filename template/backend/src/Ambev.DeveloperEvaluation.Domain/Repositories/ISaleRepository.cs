@@ -2,7 +2,7 @@
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
-public interface ISaleRepository
+public interface ISaleRepository : IRepository<Sale>
 {
     Task<Sale> CreateAsync(Sale entity);
     Task<bool> UpdatedAsync(Sale entity);

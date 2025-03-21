@@ -4,24 +4,24 @@ namespace Ambev.DeveloperEvaluation.Application.Sales;
 
 public static class ApplyDiscount
 {
-    public static void ApplyDiscountRules(Sale sale)
+    public static void ApplyDiscountRules(Sale sale, IEnumerable<Discount> discountRules)
     {
-        const decimal twentyPercent = 0.2m;
-        const decimal tenPercent = 0.1m;
+        var orderedRules = discountRules.OrderByDescending(r => r.MinQuantity);
 
-        foreach (var item in sale.Products)
+        foreach (var item in sale.Items)
         {
-            item.Discount = item.Quantity switch
+            var rule = orderedRules.FirstOrDefault(r =>
+                item.Quantity >= r.MinQuantity &&
+                (!r.MaxQuantity.HasValue || item.Quantity <= r.MaxQuantity.Value));
+
+            if (rule != null)
             {
-                > 20 => throw new InvalidOperationException("Cannot sell more than 20 identical items."),
-                >= 10 => twentyPercent,
-                >= 4 => tenPercent,
-                _ => 0
-            };
-
-            item.Total = item.Quantity * item.UnitPrice * (1 - item.Discount);
+                item.ApplyDiscount(rule.Percentage);
+            }
+            else
+            {
+                item.ApplyDiscount(0);
+            }
         }
-
-        sale.TotalAmount = sale.Products.Sum(i => i.Total);
     }
 }

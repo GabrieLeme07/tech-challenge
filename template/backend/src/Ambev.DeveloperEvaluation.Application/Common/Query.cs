@@ -1,7 +1,12 @@
-﻿namespace Ambev.DeveloperEvaluation.Application.Common;
+﻿namespace Ambev.DeveloperEvaluation.Common.Pagination;
 
 public class Query
 {
+    /// <summary>
+    /// Default registry per page
+    /// </summary>
+    public const int DefaultTakeValue = 10;
+
     /// <summary>
     /// Global search string
     /// </summary>
@@ -27,7 +32,7 @@ public class Query
     /// Returns a specified number of contiguous elements from the start of a sequence.
     /// Default = 10
     /// </summary>
-    public int Take { get; set; } = 10;
+    public int Take { get; set; } = DefaultTakeValue;
 
     /// <summary>
     /// Calculated current page
@@ -38,9 +43,38 @@ public class Query
             : 1;
 
     /// <summary>
-    /// Order By fields delimited with ","
-    /// Ex: Name DESC , Status
+    /// Order By fields delimitedf with pipe "|"
+    /// Ex: Name DESC | Status
     /// </summary>
     public string OrderBy { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Get Query params from page number
+    /// </summary>
+    /// <param name="page">Page number</param>
+    /// <param name="take">Quantity of registry per page</param>
+    /// <param name="search">Free text search parameter</param>
+    public static Query GetFromPage(int page, int take = DefaultTakeValue, string search = null)
+    {
+        return new Query
+        {
+            Skip = (page - 1) * take,
+            Take = take,
+            Search = search
+        };
+    }
+
+    /// <summary>
+    /// Get Query params from page number
+    /// </summary>
+    /// <param name="page">Page number</param>
+    /// <param name="take">Quantity of registry per page</param>
+    /// <param name="search">Free text search parameter</param>
+    /// <param name="orderBy">Order by fields</param>
+    public static Query GetFromPage(int page, int take = DefaultTakeValue, string search = null, string orderBy = null)
+    {
+        var result = GetFromPage(page, take, search);
+        result.OrderBy = orderBy;
+        return result;
+    }
 }

@@ -1,12 +1,13 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Common;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
 public interface ICartRepository
 {
     Task<Cart> CreateAsync(Cart entity);
-    Task<bool> UpdatedAsync(Cart entity);
-    Task<Cart> GetByIdAsync(int id);
-    Task<List<Cart>> GetAllAsync(int take, int skip);
-    Task<bool> DeleteAsync(int id);
+    void UpdatedAsync(Cart entity);
+    Task<Cart> GetByIdAsync(Guid id);
+    Task<List<Cart>> GetAllAsync(Query query);
+    Task<bool> DeleteAsync(Guid id);
 }

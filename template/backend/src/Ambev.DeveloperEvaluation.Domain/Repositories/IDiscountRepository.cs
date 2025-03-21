@@ -6,5 +6,5 @@ public interface IDiscountRepository
 {
     Task<Discount> CreateAsync(Discount entity);
     Task<Discount> GetByIdAsync(int id);
-    Task<List<Discount>> GetAllAsync(int take, int skip);
+    Task<IEnumerable<Discount>> GetAllAsync();
 }

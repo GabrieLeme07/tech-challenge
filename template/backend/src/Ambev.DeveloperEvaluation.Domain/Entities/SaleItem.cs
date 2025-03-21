@@ -4,31 +4,17 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
 public class SaleItem : BaseEntity
 {
-    public string ProductId { get; private set; }
-    public string ProductDescription { get; private set; }
-    public int Quantity { get; private set; }
-    public decimal UnitPrice { get; private set; }
+    public string ProductId { get; init; }
+    public string ProductDescription { get; init; }
+    public int Quantity { get; init; }
+    public decimal Price { get; init; }
     public decimal DiscountPercentage { get; private set; }
     public decimal TotalAmount { get; private set; }
-    public bool Cancelled { get; private set; }
+    public bool Cancelled { get; init; }
 
-    public SaleItem(string productId, string productDescription, int quantity, decimal unitPrice, decimal discountPercent)
+    public void ApplyDiscount(decimal discountPercentage)
     {
-        if (quantity > 20)
-            throw new ArgumentException("Não é permitido vender mais de 20 itens idênticos.");
-
-        ProductId = productId;
-        ProductDescription = productDescription;
-        Quantity = quantity;
-        UnitPrice = unitPrice;
-        Cancelled = false;
-
-        DiscountPercentage = discountPercent;
-        TotalAmount = Quantity * UnitPrice * (1 - DiscountPercentage);
-    }
-
-    public void CancelItem()
-    {
-        Cancelled = true;
+        DiscountPercentage = discountPercentage;
+        TotalAmount = Price * Quantity * (1 - Quantity);
     }
 }

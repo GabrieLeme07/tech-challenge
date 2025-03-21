@@ -1,15 +1,12 @@
-﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
-using Ambev.DeveloperEvaluation.Domain.Enums;
+﻿namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 
-namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
-
-public class CreateSaleResult
+public record CreateSaleResult
 {
-    public int Id { get; set; }
-    public DateTime InitialDate { get; set; }
-    public Guid CustomerId { get; set; }
-    public decimal TotalAmount { get; set; }
-    public string BranchSaleWasMade { get; set; } = string.Empty;
-    public List<CreateProductCommand> Products { get; set; } = new List<CreateProductCommand>();
-    public SaleStatus Status { get; set; }
+    public Guid Id { get; init; }
+    public DateTime SaleDate { get; init; }
+    public Guid CustomerId { get; init; }
+    public string Branch { get; init; } = string.Empty;
+    public List<CreateSaleItemResult> Items { get; init; } = new List<CreateSaleItemResult>();
+    public decimal TotalAmount { get; init; }
+    public bool IsCancelled { get; init; }
 }

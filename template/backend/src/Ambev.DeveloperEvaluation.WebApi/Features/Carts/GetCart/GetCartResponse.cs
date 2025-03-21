@@ -1,11 +1,11 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCarts;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCart;
 
 public class GetCartResponse
 {
-    public int Id { get; set; }
-    public Guid UserId { get; set; }
-    public DateTime Date { get; set; }
-    public List<ProductCart> ProductCarts { get; set; } = new List<ProductCart>();
+    public int Id { get; init; }
+    public Guid UserId { get; init; }
+    public DateTime Date { get; init; }
+    public List<GetProductCartResponse> ProductCarts { get; init; } = new List<GetProductCartResponse>();
 }

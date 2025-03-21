@@ -29,6 +29,7 @@ public class CreateProductHandler(IProductRepository repository, IMapper mapper)
 
         if (!commitResponse.IsValid)
             throw new ValidationException(commitResponse.Errors);
+
         var result = _mapper.Map<CreateProductResult>(createdProduct);
         return result;
     }

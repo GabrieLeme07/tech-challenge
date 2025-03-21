@@ -99,7 +99,6 @@ public class ProductController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellationToken)
     {
-        var query = GetQueryParams();
         var request = new GetProductRequest(id);
         var validator = new GetProductValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -107,10 +106,7 @@ public class ProductController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<Application.Products.GetProduct.GetProductCommand>(request, opt =>
-        {
-            opt.Items["Query"] = query;
-        });
+        var command = new Application.Products.GetProduct.GetProductCommand(id, GetQueryParams());
 
         var response = await _mediator.Send(command, cancellationToken);
 

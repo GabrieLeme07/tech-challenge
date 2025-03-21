@@ -1,4 +1,7 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Common;
+using Ambev.DeveloperEvaluation.Common.Ordering;
+using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
@@ -19,17 +22,24 @@ public class CartRepository : BaseRepository, ICartRepository
     public async Task<Cart?> GetByIdAsync(Guid id)
         => await Db.Carts.FirstOrDefaultAsync(e => e.Id == id);
 
-    public async Task<List<Cart>> GetAllAsync(int take, int skip)
-        => await _context.Carts.Skip(skip).Take(take).ToListAsync();
-
-    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<List<Cart>> GetAllAsync(Query query)
     {
-        var cart = await GetByIdAsync(id, cancellationToken);
+        var queryable = Db.Carts
+            .AsNoTracking()
+            .Include(e => e.Products)
+            .ApplyOrdering(query.OrderBy)
+            .ApplyPaging(query.IsPaginated, query.Skip, query.Take);
+
+        return await queryable.ToListAsync();
+    }
+
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        var cart = await GetByIdAsync(id);
         if (cart == null)
             return false;
 
-        _context.Carts.Remove(cart);
-        await _context.SaveChangesAsync(cancellationToken);
+        Db.Carts.Remove(cart);
         return true;
     }
 }

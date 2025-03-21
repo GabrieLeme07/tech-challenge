@@ -1,14 +1,10 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Enums;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
-
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
+﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 
 public class CreateSaleRequest
 { 
-    public DateTime InitialDate { get; set; }
+    public DateTime Date { get; set; }
     public Guid CustomerId { get; set; }
-    public decimal TotalAmount { get; set; }
-    public string BranchSaleWasMade { get; set; } = string.Empty;
-    public List<CreateProductRequest> Products { get; set; } = new List<CreateProductRequest>(); 
-    public SaleStatus Status { get; set; }
+
+    public string Branch { get; set; } = string.Empty;
+    public List<CreateSaleItemRequest> Products { get; set; } = new List<CreateSaleItemRequest>(); 
 }

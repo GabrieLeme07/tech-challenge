@@ -22,7 +22,7 @@ public class SaleItemConfiguration : IEntityTypeConfiguration<SaleItem>
         builder.Property(si => si.Quantity)
             .IsRequired();
 
-        builder.Property(si => si.UnitPrice)
+        builder.Property(si => si.Price)
             .IsRequired()
             .HasColumnType("decimal(18,2)");
 

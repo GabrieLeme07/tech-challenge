@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Common;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -6,18 +7,10 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
 
-public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, UpdateProductResult>
+public class UpdateProductHandler(IProductRepository repository, IMapper mapper) : CommandHandler, IRequestHandler<UpdateProductCommand, UpdateProductResult>
 {
-    private readonly IProductRepository _repository;
-    private readonly IMapper _mapper;
-
-    public UpdateProductHandler(
-        IProductRepository repository,
-        IMapper mapper)
-    {
-        _mapper = mapper;
-        _repository = repository;
-    }
+    private readonly IProductRepository _repository = repository;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<UpdateProductResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
@@ -27,13 +20,16 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var product = _mapper.Map<Product>(request); 
+        var product = _mapper.Map<Product>(request);
 
-        if (await _repository.UpdatedAsync(product, cancellationToken))
-        {
-            return _mapper.Map<UpdateProductResult>(product);
-        }
+        await _repository.UpdatedAsync(product);
 
-        throw new InvalidOperationException($"The product can't be changed");
+        cancellationToken.ThrowIfCancellationRequested();
+        var commitResponse = await Commit(_repository.UnitOfWork);
+
+        if (!commitResponse.IsValid)
+            throw new ValidationException(commitResponse.Errors);
+
+        return _mapper.Map<UpdateProductResult>(product);
     }
 }
