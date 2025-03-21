@@ -1,12 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Ambev.DeveloperEvaluation.Common.Lambda;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Common;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BaseController : ControllerBase
+public abstract class BaseController : ControllerBase
 {
+    /// <summary>
+    /// Return QueryParameters from Query
+    /// </summary>
+    protected QueryParams GetQueryParams(string search = default)
+    {
+        int.TryParse(Request.Query["_page"].ToString(), out var page);
+        int.TryParse(Request.Query["_size"].ToString(), out var take);
+
+        take = take == 0 ? 10 : take;
+        page = page == 0 ? 1 : page;
+        var orderBy = Request.Headers["_order"].ToString();
+        return QueryParams.GetFromPage(page, take, search, orderBy);
+    }
+
     protected int GetCurrentUserId() =>
             int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new NullReferenceException());
 

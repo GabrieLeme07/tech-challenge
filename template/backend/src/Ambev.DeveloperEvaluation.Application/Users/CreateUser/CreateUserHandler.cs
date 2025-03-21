@@ -4,13 +4,14 @@ using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Common.Security;
+using Ambev.DeveloperEvaluation.Application.Common;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 
 /// <summary>
 /// Handler for processing CreateUserCommand requests
 /// </summary>
-public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserResult>
+public class CreateUserHandler : CommandHandler, IRequestHandler<CreateUserCommand, CreateUserResult>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
@@ -51,6 +52,13 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
         user.Password = _passwordHasher.HashPassword(command.Password);
 
         var createdUser = await _userRepository.CreateAsync(user, cancellationToken);
+
+        cancellationToken.ThrowIfCancellationRequested();
+        var commitResponse = await Commit(_userRepository.UnitOfWork);
+
+        if(!commitResponse.IsValid)
+            throw new ValidationException(commitResponse.Errors);
+
         var result = _mapper.Map<CreateUserResult>(createdUser);
         return result;
     }

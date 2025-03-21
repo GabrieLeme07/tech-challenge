@@ -7,7 +7,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 /// <summary>
 /// Implementation of IUserRepository using Entity Framework Core
 /// </summary>
-public class UserRepository : IUserRepository
+public class UserRepository : BaseRepository, IUserRepository
 {
     private readonly DefaultContext _context;
 
@@ -15,7 +15,7 @@ public class UserRepository : IUserRepository
     /// Initializes a new instance of UserRepository
     /// </summary>
     /// <param name="context">The database context</param>
-    public UserRepository(DefaultContext context)
+    public UserRepository(DefaultContext context) : base(context)
     {
         _context = context;
     }
@@ -28,8 +28,7 @@ public class UserRepository : IUserRepository
     /// <returns>The created user</returns>
     public async Task<User> CreateAsync(User user, CancellationToken cancellationToken = default)
     {
-        await _context.Users.AddAsync(user, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
+        await base.AddAsync(user);
         return user;
     }
 
