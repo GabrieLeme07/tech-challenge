@@ -97,9 +97,9 @@ public class ProductController : BaseController
     [ProducesResponseType(typeof(ApiResponseWithData<GetProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAll([FromQuery] int _page, [FromQuery] int _size, [FromQuery] string _order, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAll([FromQuery] int _page, [FromQuery] int _size, [FromQuery] string _order, [FromQuery] string _search, CancellationToken cancellationToken)
     {
-        var command = new Application.Products.GetListProduct.GetListProductCommand(GetQueryParams());
+        var command = new Application.Products.GetListProduct.GetListProductCommand(GetQueryParams(_search));
 
         var result = await _mediator.Send(command, cancellationToken);
 

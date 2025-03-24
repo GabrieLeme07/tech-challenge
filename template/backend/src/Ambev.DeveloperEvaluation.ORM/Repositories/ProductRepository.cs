@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Common;
+using Ambev.DeveloperEvaluation.Common.Extensions;
 using Ambev.DeveloperEvaluation.Common.Ordering;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
@@ -37,7 +38,14 @@ public class ProductRepository : BaseRepository, IProductRepository
         var queryable = Db.Products
             .AsNoTracking()
             .Include(p => p.Rating)
+
+            // Filters
+            .ConditionalWhere(e => e.Title.Contains(query.Search) || e.Category.Contains(query.Search), query.HasSearch)
+
+            // Sorting 
             .ApplyOrdering(query.OrderBy)
+
+            // Paging 
             .ApplyPaging(query.IsPaginated, query.Skip, query.Take);
 
         return await queryable.ToListAsync();
