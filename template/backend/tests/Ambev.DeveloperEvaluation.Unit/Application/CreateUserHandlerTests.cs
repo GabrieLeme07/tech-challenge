@@ -2,6 +2,7 @@ using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.ORM.Repositories;
 using Ambev.DeveloperEvaluation.Unit.Domain;
 using AutoMapper;
 using FluentAssertions;
@@ -29,6 +30,10 @@ public class CreateUserHandlerTests
         _userRepository = Substitute.For<IUserRepository>();
         _mapper = Substitute.For<IMapper>();
         _passwordHasher = Substitute.For<IPasswordHasher>();
+        var fakeUnitOfWork = Substitute.For<IUnitOfWork>();
+        fakeUnitOfWork.Commit().Returns(Task.FromResult(true));
+        _userRepository.UnitOfWork.Returns(fakeUnitOfWork);
+
         _handler = new CreateUserHandler(_userRepository, _mapper, _passwordHasher);
     }
 
