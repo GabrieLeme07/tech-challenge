@@ -3,11 +3,11 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart
 {
-    public class UpdateCartCommand : IRequest<UpdateCartResult>
+    public record UpdateCartCommand : IRequest<UpdateCartResult>
     {
-        public Guid UserId { get; init; }
+        public int UserId { get; init; }
         public DateTime Date { get; init; }
-        public List<UpdateProductCartCommand> ProductCarts { get; init; } = new List<UpdateProductCartCommand>();
+        public List<UpdateProductCartCommand> ProductCarts { get; init; }
 
         public ValidationResultDetail Validate()
         {

@@ -2,6 +2,6 @@
 
 public record CreateProductCartResult
 {
-    public Guid ProductId { get; init; }
+    public int ProductId { get; init; }
     public int Quantity { get; init; }
 }

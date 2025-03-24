@@ -1,21 +1,14 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
 
-namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
-
-public class UpdateProductResult
+public record UpdateProductResult
 {
-    public int Id { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public decimal UnitPrice { get; set; }
-    public decimal Total { get; set; }
-    public decimal Discount { get; set; }
-    public int Quantity { get; set; }
-    public string Category { get; set; } = string.Empty;
-    public string Image { get; set; } = string.Empty;
-    public Rating Rating { get; set; } = new()
-    {
-        Id = Guid.NewGuid(),
-        Rate = 0,
-        Count = 0
-    };
+    public int Id { get; init; }
+    public string Title { get; init; }
+    public decimal UnitPrice { get; init; }
+    public decimal Total { get; init; }
+    public decimal Discount { get; init; }
+    public int Quantity { get; init; }
+    public string Category { get; init; }
+    public string Image { get; init; }
+    public UpdateProductRatingResult Rating { get; init; }
 }

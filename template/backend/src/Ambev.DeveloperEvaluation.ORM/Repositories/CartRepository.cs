@@ -19,7 +19,7 @@ public class CartRepository : BaseRepository, ICartRepository
     public void UpdatedAsync(Cart entity)
         => base.Update(entity);
 
-    public async Task<Cart?> GetByIdAsync(Guid id)
+    public async Task<Cart?> GetByIdAsync(int id)
         => await Db
         .Carts
         .Include(c => c.Products)
@@ -37,7 +37,7 @@ public class CartRepository : BaseRepository, ICartRepository
         return await queryable.ToListAsync();
     }
 
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(int id)
     {
         var cart = await GetByIdAsync(id);
         if (cart == null)

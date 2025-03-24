@@ -2,11 +2,11 @@
 
 public record CreateSaleResult
 {
-    public Guid Id { get; init; }
+    public int Id { get; init; }
     public DateTime SaleDate { get; init; }
-    public Guid CustomerId { get; init; }
-    public string Branch { get; init; } = string.Empty;
-    public List<CreateSaleItemResult> Items { get; init; } = new List<CreateSaleItemResult>();
+    public int CustomerId { get; init; }
+    public string Branch { get; init; }
+    public List<CreateSaleItemResult> Items { get; init; }
     public decimal TotalAmount { get; init; }
     public bool IsCancelled { get; init; }
 }

@@ -23,7 +23,7 @@ public class CreateProductCommand : IRequest<CreateProductResult>
     /// <summary>
     /// Gets or sets the title of the product to be created.
     /// </summary>
-    public string Title { get; set; } = string.Empty;
+    public string Title { get; set; }
 
     /// <summary>
     /// Gets or sets the price of the product to be created.
@@ -33,17 +33,17 @@ public class CreateProductCommand : IRequest<CreateProductResult>
     /// <summary>
     /// Gets or sets the description of the product to be created.
     /// </summary>
-    public string Description { get; set; } = string.Empty;
+    public string Description { get; set; } 
 
     /// <summary>
     /// Gets or sets the category of the product to be created.
     /// </summary>
-    public string Category { get; set; } = string.Empty;
+    public string Category { get; set; }
 
     /// <summary>
     /// Gets or sets the image of the product to be created.
     /// </summary>
-    public string Image { get; set; } = string.Empty;
+    public string Image { get; set; }
 
     /// <summary>
     /// Gets or sets the rating of the product to be created.

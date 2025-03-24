@@ -10,8 +10,8 @@ public static class CreateSaleHandlerTestData
         return new Faker<CreateSaleCommand>("pt_BR")
             .CustomInstantiator(f => new CreateSaleCommand
             {
-                CartId = Guid.NewGuid(),
-                CustomerId = Guid.NewGuid(),
+                CartId = 1,
+                CustomerId = 1,
                 Branch = f.Company.CompanyName()
             });
     }

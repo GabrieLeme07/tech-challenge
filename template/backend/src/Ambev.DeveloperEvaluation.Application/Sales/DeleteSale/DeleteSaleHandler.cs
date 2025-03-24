@@ -22,6 +22,6 @@ public class DeleteSaleHandler(ISaleRepository saleRepository) : CommandHandler,
         if (!success)
             throw new KeyNotFoundException($"Sale with ID {request.Id} not found");
 
-        return new DeleteSaleResult { Success = true };
+        return new DeleteSaleResult(true);
     }
 }

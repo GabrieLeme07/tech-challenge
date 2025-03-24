@@ -1,9 +1,9 @@
 ﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart;
 
-public class CreateCartResponse
+public record CreateCartResponse
 {
     public int Id { get; init; }
     public Guid UserId { get; init; }
     public DateTime Date { get; init; }
-    public List<CreateProductCartResponse> ProductCarts { get; set; } = new List<CreateProductCartResponse>();
+    public List<CreateProductCartResponse> ProductCarts { get; init; }
 }

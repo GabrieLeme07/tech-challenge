@@ -8,11 +8,13 @@ public class UpdateCartCommandValidator : AbstractValidator<UpdateCartCommand>
     public UpdateCartCommandValidator()
     {
         RuleFor(cart => cart.UserId)
-            .Equal(Guid.NewGuid())
+            .NotEqual(0)
+            .GreaterThan(0)
             .WithMessage("User ID is required");
 
         RuleFor(cart => cart.UserId)
-            .Equal(Guid.Empty)
+            .NotEqual(0)
+            .GreaterThan(0)
             .WithMessage("User ID is required");
 
         RuleFor(cart => cart.Date)

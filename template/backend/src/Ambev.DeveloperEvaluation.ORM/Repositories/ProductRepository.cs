@@ -19,10 +19,10 @@ public class ProductRepository : BaseRepository, IProductRepository
     public void UpdatedAsync(Product entity)
         => base.Update(entity);
 
-    public async Task<Product?> GetByIdAsync(Guid id)
+    public async Task<Product?> GetByIdAsync(int id)
         => await Db.Products.FirstOrDefaultAsync(e => e.Id == id);
 
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(int id)
     {
         var product = await GetByIdAsync(id);
         if (product == null)

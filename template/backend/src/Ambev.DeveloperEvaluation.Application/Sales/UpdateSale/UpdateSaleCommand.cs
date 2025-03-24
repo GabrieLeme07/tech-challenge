@@ -1,16 +1,15 @@
-﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProduct; 
+﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.Domain.Enums;
-using MediatR; 
+using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale
+namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
+
+public record UpdateSaleCommand : IRequest<UpdateSaleResult>
 {
-    public class UpdateSaleCommand : IRequest<UpdateSaleResult>
-    {
-        public DateTime InitialDate { get; set; }
-        public Guid CustomerId { get; set; }
-        public decimal TotalAmount { get; set; }
-        public string BranchSaleWasMade { get; set; } = string.Empty;
-        public List<CreateProductCommand> Products { get; set; } = new List<CreateProductCommand>();
-        public SaleStatus Status { get; set; }
-    }
+    public DateTime Date { get; init; }
+    public Guid CustomerId { get; init; }
+    public decimal TotalAmount { get; init; }
+    public string BranchSaleWasMade { get; init; }
+    public List<CreateProductCommand> Products { get; init; }
+    public SaleStatus Status { get; init; }
 }

@@ -12,11 +12,11 @@ public class UpdateSaleCommandValidator : AbstractValidator<UpdateSaleCommand>
             .Equal(string.Empty)
             .WithMessage($"");
 
-        RuleFor(sale => sale.InitialDate)
+        RuleFor(sale => sale.Date)
             .Equal(DateTime.MinValue)
             .WithMessage($"The Date property can't be {DateTime.MinValue.ToString(ShortDateFormat)}");
 
-        RuleFor(sale => sale.InitialDate)
+        RuleFor(sale => sale.Date)
             .Equal(DateTime.MaxValue)
             .WithMessage($"The Date property can't be {DateTime.MaxValue.ToString(ShortDateFormat)}");
 

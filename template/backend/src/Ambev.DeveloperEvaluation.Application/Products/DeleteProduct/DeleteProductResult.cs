@@ -1,6 +1,3 @@
 ﻿namespace Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 
-public class DeleteProductResult
-{
-    public bool Success { get; set; }
-}
+public record DeleteProductResult(bool Success);

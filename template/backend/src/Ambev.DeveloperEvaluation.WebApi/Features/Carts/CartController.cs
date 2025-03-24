@@ -1,6 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
 using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
 using Ambev.DeveloperEvaluation.Application.Carts.GetCart;
+using Ambev.DeveloperEvaluation.Application.Carts.GetListCart;
 using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart;
@@ -26,11 +27,50 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
             _mapper = mapper;
         }
 
+        [HttpGet()]
+        [ProducesResponseType(typeof(ApiResponseWithData<PaginatedList<GetCartResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAll([FromQuery] int _page, [FromQuery] int _size, [FromQuery] string _order, CancellationToken cancellationToken)
+        {
+            var command = new GetListCartCommand(GetQueryParams());
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            var response = result.Carts.Select(p => _mapper.Map<GetCartResponse>(p)).ToList();
+
+            return OkPaginated(new PaginatedList<GetCartResponse>(response, result.Count, result.Page, result.Size));
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(ApiResponseWithData<CreateCartResponse>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromBody] CreateCartRequest request, CancellationToken cancellationToken)
+        {
+            var validator = new CreateCartRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var productCarts = request.Products.Select(p => _mapper.Map<CartProductCommand>(p)).ToList();
+
+            var command = new CreateCartCommand { UserId = GetCurrentUserId(), Date = DateTime.UtcNow, Products = productCarts };
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Created(string.Empty, new ApiResponseWithData<CreateCartResponse>
+            {
+                Success = true,
+                Message = "Cart created successfully",
+                Data = _mapper.Map<CreateCartResponse>(response)
+            });
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ApiResponseWithData<GetCartResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById([FromRoute] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellationToken)
         {
             var request = new GetCartRequest(id);
             var validator = new GetCartRequestValidator();
@@ -47,30 +87,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
                 Success = true,
                 Message = "Cart retrieved successfully",
                 Data = _mapper.Map<GetCartResponse>(response)
-            });
-        }
-
-        [HttpPost]
-        [ProducesResponseType(typeof(ApiResponseWithData<CreateCartResponse>), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] CreateCartRequest request, CancellationToken cancellationToken)
-        {
-            var validator = new CreateCartRequestValidator();
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors);
-
-            var productCarts = request.Products.Select(p => _mapper.Map<CartProductCommand>(p)).ToList();
-
-            var command = new CreateCartCommand { UserId = new Guid("75df14b8-8541-4907-a176-cf990c0c9655"), Date = DateTime.UtcNow, Products = productCarts };
-            var response = await _mediator.Send(command, cancellationToken);
-
-            return Created(string.Empty, new ApiResponseWithData<CreateCartResponse>
-            {
-                Success = true,
-                Message = "Cart created successfully",
-                Data = _mapper.Map<CreateCartResponse>(response)
             });
         }
 

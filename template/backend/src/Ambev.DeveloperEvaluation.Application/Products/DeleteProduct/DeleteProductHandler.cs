@@ -21,6 +21,6 @@ public class DeleteProductHandler(IProductRepository productRepository) : IReque
         if (!success)
             throw new KeyNotFoundException($"Product with ID {request.Id} not found");
 
-        return new DeleteProductResult { Success = true };
+        return new DeleteProductResult(true);
     }
 }

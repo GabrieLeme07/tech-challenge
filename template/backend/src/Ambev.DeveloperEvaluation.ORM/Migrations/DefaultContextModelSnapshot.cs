@@ -24,16 +24,17 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Cart", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -44,15 +45,17 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.CartProduct", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uuid");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("CartId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -68,10 +71,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Discount", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
@@ -92,7 +96,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("80944d57-50ea-492a-9378-27ee5673c946"),
+                            Id = 1,
                             IsActive = true,
                             MaxQuantity = 9,
                             MinQuantity = 4,
@@ -100,7 +104,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                         },
                         new
                         {
-                            Id = new Guid("637c75ab-12d4-4dab-9e7e-a32a81752f44"),
+                            Id = 2,
                             IsActive = true,
                             MaxQuantity = 20,
                             MinQuantity = 10,
@@ -110,10 +114,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Product", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -130,8 +135,8 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("RatingId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("RatingId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -147,312 +152,313 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000001"),
+                            Id = 1,
                             Category = "Eletronicos",
                             Image = "eletronico1.jpg",
                             Price = 1200.00m,
                             Quantity = 20,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000001"),
+                            RatingId = 1,
                             Title = "Smartphone Eletronico 1"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000002"),
+                            Id = 2,
                             Category = "Eletronicos",
                             Image = "eletronico2.jpg",
                             Price = 1300.00m,
                             Quantity = 18,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000002"),
+                            RatingId = 2,
                             Title = "Smartphone Eletronico 2"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000003"),
+                            Id = 3,
                             Category = "Eletronicos",
                             Image = "eletronico3.jpg",
                             Price = 2500.00m,
                             Quantity = 10,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000003"),
+                            RatingId = 3,
                             Title = "Smart TV Eletronico 3"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000004"),
+                            Id = 4,
                             Category = "Eletronicos",
                             Image = "eletronico4.jpg",
                             Price = 3000.00m,
                             Quantity = 8,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000004"),
+                            RatingId = 4,
                             Title = "Notebook Eletronico 4"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000005"),
+                            Id = 5,
                             Category = "Eletronicos",
                             Image = "eletronico5.jpg",
                             Price = 900.00m,
                             Quantity = 12,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000005"),
+                            RatingId = 5,
                             Title = "Tablet Eletronico 5"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000006"),
+                            Id = 6,
                             Category = "Eletronicos",
                             Image = "eletronico6.jpg",
                             Price = 1500.00m,
                             Quantity = 5,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000006"),
+                            RatingId = 6,
                             Title = "Câmera Eletronico 6"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000007"),
+                            Id = 7,
                             Category = "Eletronicos",
                             Image = "eletronico7.jpg",
                             Price = 200.00m,
                             Quantity = 25,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000007"),
+                            RatingId = 7,
                             Title = "Fone de Ouvido Eletronico 7"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000008"),
+                            Id = 8,
                             Category = "Eletronicos",
                             Image = "eletronico8.jpg",
                             Price = 350.00m,
                             Quantity = 30,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000008"),
+                            RatingId = 8,
                             Title = "Smartwatch Eletronico 8"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000009"),
+                            Id = 9,
                             Category = "Eletronicos",
                             Image = "eletronico9.jpg",
                             Price = 2800.00m,
                             Quantity = 7,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000009"),
+                            RatingId = 9,
                             Title = "Console Eletronico 9"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-00000000000a"),
+                            Id = 10,
                             Category = "Eletronicos",
                             Image = "eletronico10.jpg",
                             Price = 800.00m,
                             Quantity = 10,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000a"),
+                            RatingId = 10,
                             Title = "Monitor Eletronico 10"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-00000000000b"),
+                            Id = 11,
                             Category = "Bebidas",
                             Image = "bebida1.jpg",
                             Price = 5.00m,
                             Quantity = 50,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000b"),
+                            RatingId = 11,
                             Title = "Refrigerante Bebida 1"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-00000000000c"),
+                            Id = 12,
                             Category = "Bebidas",
                             Image = "bebida2.jpg",
                             Price = 5.50m,
                             Quantity = 60,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000c"),
+                            RatingId = 12,
                             Title = "Refrigerante Bebida 2"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-00000000000d"),
+                            Id = 13,
                             Category = "Bebidas",
                             Image = "bebida3.jpg",
                             Price = 8.00m,
                             Quantity = 40,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000d"),
+                            RatingId = 13,
                             Title = "Suco Bebida 3"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-00000000000e"),
+                            Id = 14,
                             Category = "Bebidas",
                             Image = "bebida4.jpg",
                             Price = 10.00m,
                             Quantity = 100,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000e"),
+                            RatingId = 14,
                             Title = "Cerveja Bebida 4"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-00000000000f"),
+                            Id = 15,
                             Category = "Bebidas",
                             Image = "bebida5.jpg",
                             Price = 50.00m,
                             Quantity = 30,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000f"),
+                            RatingId = 15,
                             Title = "Vinho Bebida 5"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000010"),
+                            Id = 16,
                             Category = "Bebidas",
                             Image = "bebida6.jpg",
                             Price = 2.00m,
                             Quantity = 80,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000010"),
+                            RatingId = 16,
                             Title = "Água Bebida 6"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000011"),
+                            Id = 17,
                             Category = "Bebidas",
                             Image = "bebida7.jpg",
                             Price = 7.50m,
                             Quantity = 35,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000011"),
+                            RatingId = 17,
                             Title = "Suco Bebida 7"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000012"),
+                            Id = 18,
                             Category = "Bebidas",
                             Image = "bebida8.jpg",
                             Price = 6.00m,
                             Quantity = 55,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000012"),
+                            RatingId = 18,
                             Title = "Refrigerante Bebida 8"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000013"),
+                            Id = 19,
                             Category = "Bebidas",
                             Image = "bebida9.jpg",
                             Price = 12.00m,
                             Quantity = 90,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000013"),
+                            RatingId = 19,
                             Title = "Cerveja Bebida 9"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000014"),
+                            Id = 20,
                             Category = "Bebidas",
                             Image = "bebida10.jpg",
                             Price = 2.50m,
                             Quantity = 70,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000014"),
+                            RatingId = 20,
                             Title = "Água Bebida 10"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000015"),
-                            Category = "Decoração",
-                            Image = "decoracao1.jpg",
-                            Price = 45.00m,
-                            Quantity = 15,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000015"),
-                            Title = "Vaso Decoracao 1"
-                        },
-                        new
-                        {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000016"),
+                            Id = 21,
                             Category = "Decoração",
                             Image = "decoracao2.jpg",
                             Price = 55.00m,
                             Quantity = 20,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000016"),
+                            RatingId = 22,
                             Title = "Vaso Decoracao 2"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000017"),
+                            Id = 22,
                             Category = "Decoração",
                             Image = "decoracao3.jpg",
                             Price = 120.00m,
                             Quantity = 10,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000017"),
+                            RatingId = 23,
                             Title = "Quadro Decoracao 3"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000018"),
+                            Id = 23,
                             Category = "Decoração",
                             Image = "decoracao4.jpg",
                             Price = 150.00m,
                             Quantity = 8,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000018"),
+                            RatingId = 24,
                             Title = "Relógio Decoracao 4"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-000000000019"),
+                            Id = 24,
                             Category = "Decoração",
                             Image = "decoracao5.jpg",
                             Price = 80.00m,
                             Quantity = 12,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000019"),
+                            RatingId = 25,
                             Title = "Luminária Decoracao 5"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-00000000001a"),
+                            Id = 25,
                             Category = "Decoração",
                             Image = "decoracao6.jpg",
                             Price = 35.00m,
                             Quantity = 30,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000001a"),
+                            RatingId = 26,
                             Title = "Almofada Decoracao 6"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-00000000001b"),
+                            Id = 26,
                             Category = "Decoração",
                             Image = "decoracao7.jpg",
                             Price = 200.00m,
                             Quantity = 5,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000001b"),
+                            RatingId = 27,
                             Title = "Espelho Decoracao 7"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-00000000001c"),
+                            Id = 27,
                             Category = "Decoração",
                             Image = "decoracao8.jpg",
                             Price = 100.00m,
                             Quantity = 7,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000001c"),
+                            RatingId = 28,
                             Title = "Cortina Decoracao 8"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-00000000001d"),
+                            Id = 28,
                             Category = "Decoração",
                             Image = "decoracao9.jpg",
                             Price = 750.00m,
                             Quantity = 3,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000001d"),
+                            RatingId = 29,
                             Title = "Sofá Decoracao 9"
                         },
                         new
                         {
-                            Id = new Guid("d1a8d8a7-0e2b-4b6d-9e5c-00000000001e"),
+                            Id = 29,
                             Category = "Decoração",
                             Image = "decoracao10.jpg",
                             Price = 350.00m,
                             Quantity = 4,
-                            RatingId = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000001e"),
+                            RatingId = 30,
                             Title = "Mesa Decoracao 10"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Category = "Decoração",
+                            Image = "decoracao1.jpg",
+                            Price = 45.00m,
+                            Quantity = 15,
+                            RatingId = 21,
+                            Title = "Vaso Decoracao 1"
                         });
                 });
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Rating", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Count")
                         .HasColumnType("integer");
@@ -468,181 +474,181 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000001"),
+                            Id = 1,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000002"),
+                            Id = 2,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000003"),
+                            Id = 3,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000004"),
+                            Id = 4,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000005"),
+                            Id = 5,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000006"),
+                            Id = 6,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000007"),
+                            Id = 7,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000008"),
+                            Id = 8,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000009"),
+                            Id = 9,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000a"),
+                            Id = 10,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000b"),
+                            Id = 11,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000c"),
+                            Id = 12,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000d"),
+                            Id = 13,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000e"),
+                            Id = 14,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000000f"),
+                            Id = 15,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000010"),
+                            Id = 16,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000011"),
+                            Id = 17,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000012"),
+                            Id = 18,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000013"),
+                            Id = 19,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000014"),
+                            Id = 20,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000015"),
+                            Id = 21,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000016"),
+                            Id = 22,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000017"),
+                            Id = 23,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000018"),
+                            Id = 24,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-000000000019"),
+                            Id = 25,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000001a"),
+                            Id = 26,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000001b"),
+                            Id = 27,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000001c"),
+                            Id = 28,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000001d"),
+                            Id = 29,
                             Count = 10,
                             Rate = 5f
                         },
                         new
                         {
-                            Id = new Guid("f1a8d8a7-0e2b-4b6d-9e5c-00000000001e"),
+                            Id = 30,
                             Count = 10,
                             Rate = 5f
                         });
@@ -650,10 +656,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Sale", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BranchId")
                         .IsRequired()
@@ -684,10 +691,9 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.SaleItem", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnType("integer");
 
                     b.Property<bool>("Cancelled")
                         .HasColumnType("boolean");
@@ -699,11 +705,10 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductDescription")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -718,10 +723,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");

@@ -10,6 +10,6 @@ public class Product : BaseEntity
     public int Quantity { get; init; }
     public decimal Price { get; init; }
 
-    public Guid RatingId { get; init; }
+    public int RatingId { get; init; }
     public Rating Rating { get; init; }
 }

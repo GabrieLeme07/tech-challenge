@@ -7,7 +7,7 @@ public class CreateCartCommandValidator : AbstractValidator<CreateCartCommand>
     public CreateCartCommandValidator()
     {
         RuleFor(cart => cart.UserId)
-            .NotEqual(Guid.Empty)
+            .NotEqual(0)
             .WithMessage("The property User ID can't be empty");
         
         RuleFor(cart => cart.Products)

@@ -22,7 +22,7 @@ public class DiscountRepository : BaseRepository, IDiscountRepository
         return await queryable.ToListAsync();
     }
 
-    public async Task<Discount?> GetByIdAsync(Guid id)
+    public async Task<Discount?> GetByIdAsync(int id)
         => await Db
         .Discounts
         .FirstOrDefaultAsync(e => e.Id == id);

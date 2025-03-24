@@ -1,7 +1,7 @@
 ﻿namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart;
 
-public class UpdateProductCartCommand
+public record UpdateProductCartCommand
 {
-    public Guid ProductId { get; set; }
-    public int Quantity { get; set; }
+    public int ProductId { get; init; }
+    public int Quantity { get; init; }
 }

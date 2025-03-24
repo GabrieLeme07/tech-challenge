@@ -80,7 +80,7 @@ public class CreateSaleHandler(
         return result;
     }
 
-    private async Task HandlerMessages(string saleNumber, Guid customerId)
+    private async Task HandlerMessages(string saleNumber, int customerId)
     {
         await _messageHandler.Publish(new ProcessSalePaymentEvent(saleNumber));
         await _messageHandler.Publish(new SaleNotificationEvent(saleNumber, customerId));

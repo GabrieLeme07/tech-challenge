@@ -14,7 +14,7 @@ public class SaleRepository : BaseRepository, ISaleRepository
         return entity;
     }
 
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(int id)
     {
         var sale = await GetByIdAsync(id);
         if (sale == null)
@@ -24,7 +24,7 @@ public class SaleRepository : BaseRepository, ISaleRepository
         return true;
     }
 
-    public async Task<Sale?> GetByIdAsync(Guid id)
+    public async Task<Sale?> GetByIdAsync(int id)
         => await Db
         .Sales
         .Include(c => c.Items)

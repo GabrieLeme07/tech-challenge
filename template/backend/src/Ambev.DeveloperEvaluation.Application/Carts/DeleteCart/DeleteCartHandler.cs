@@ -8,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
 public class DeleteCartHandler(ICartRepository cartRepository) : CommandHandler, IRequestHandler<DeleteCartCommand, DeleteCartResult>
 {
     private readonly ICartRepository _repository = cartRepository;
-    
+
     public async Task<DeleteCartResult> Handle(DeleteCartCommand request, CancellationToken cancellationToken)
     {
         var validator = new DeleteCartValidator();
@@ -22,6 +22,6 @@ public class DeleteCartHandler(ICartRepository cartRepository) : CommandHandler,
         if (!success)
             throw new KeyNotFoundException($"Cart with ID {request.Id} not found");
 
-        return new DeleteCartResult { Success = true };
+        return new DeleteCartResult(true);
     }
 }

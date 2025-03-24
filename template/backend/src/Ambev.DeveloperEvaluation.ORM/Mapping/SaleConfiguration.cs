@@ -10,8 +10,9 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
     {
         builder.ToTable("Sales");
 
-        builder.HasKey(u => u.Id);
-        builder.Property(u => u.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
+        builder.HasKey(s => s.Id);
+        builder.Property(s => s.Id)
+            .ValueGeneratedOnAdd();
 
         builder.Property(s => s.SaleNumber)
             .IsRequired();
@@ -33,7 +34,7 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
 
         builder.HasMany(s => s.Items)
             .WithOne()
-            .HasForeignKey(c=> c.Id) 
+            .HasForeignKey(c => c.Id)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

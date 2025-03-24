@@ -41,11 +41,11 @@ public class CreateSaleHandlerTests
     {
         // Given
         var command = CreateSaleHandlerTestData.GenerateValidCommand();
-        var saleId = Guid.NewGuid();
+        var saleId = 1;
 
         var product = new Product
         {
-            Id = Guid.NewGuid(),
+            Id = 1,
             Title = "Produto Teste",
             Price = 100m
         };
@@ -129,10 +129,9 @@ public class CreateSaleHandlerTests
         // Given
         var command = CreateSaleHandlerTestData.GenerateValidCommand();
 
-        // Cria um produto com quantidade 20 para disparar a exceção de quantidade
         var product = new Product
         {
-            Id = Guid.NewGuid(),
+            Id = 1,
             Title = "Produto Limitado",
             Price = 50m
         };
@@ -173,11 +172,11 @@ public class CreateSaleHandlerTests
     {
         // Given
         var command = CreateSaleHandlerTestData.GenerateValidCommand();
-        var saleId = Guid.NewGuid();
+        var saleId =1;
 
         var product = new Product
         {
-            Id = Guid.NewGuid(),
+            Id = 1,
             Title = "Produto com Desconto",
             Price = 200m
         };

@@ -1,11 +1,13 @@
 ﻿using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
-public class DeleteProductCommand : IRequest<DeleteProductResult>
-{
-    public Guid Id { get; set; }
-    public DeleteProductCommand(Guid id)
-    {
-        Id = id;
-    }
-}
+
+/// <summary>
+/// Command for deleting a product.
+/// </summary>
+/// <remarks>
+/// This command is used to capture the required data for deleting a product. 
+/// It implements <see cref="IRequest{TResponse}"/> to initiate the request 
+/// that returns a <see cref="DeleteProductResult"/>.
+/// </remarks>
+public record DeleteProductCommand(int Id) : IRequest<DeleteProductResult>;

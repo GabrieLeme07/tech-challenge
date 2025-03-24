@@ -2,7 +2,4 @@
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.GetCart;
 
-public class GetCartCommand : IRequest<GetCartResult>
-{
-    public Guid Id { get; init; }
-}
+public record GetCartCommand(int Id) : IRequest<GetCartResult>;

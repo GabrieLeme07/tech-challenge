@@ -7,7 +7,7 @@ public class GetCartCommandValidator : AbstractValidator<GetCartCommand>
     public GetCartCommandValidator()
     {
         RuleFor(cart => cart.Id)
-            .Equal(Guid.Empty)
+            .Equal(0)
             .WithMessage("The property ID can't be empty");
     }
 }

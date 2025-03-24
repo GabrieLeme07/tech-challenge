@@ -3,13 +3,13 @@ using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 
-public class UpdateSaleResult
+public record UpdateSaleResult
 {
-    public int Id { get; set; }
-    public DateTime InitialDate { get; set; }
-    public Guid CustomerId { get; set; }
-    public decimal TotalAmount { get; set; }
-    public string BranchSaleWasMade { get; set; } = string.Empty;
-    public List<UpdateProductCommand> Products { get; set; } = new List<UpdateProductCommand>();
-    public SaleStatus Status { get; set; }
+    public int Id { get; init; }
+    public DateTime Date { get; init; }
+    public Guid CustomerId { get; init; }
+    public decimal TotalAmount { get; init; }
+    public string BranchSaleWasMade { get; init; } 
+    public List<UpdateProductCommand> Products { get; init; }
+    public SaleStatus Status { get; init; }
 }

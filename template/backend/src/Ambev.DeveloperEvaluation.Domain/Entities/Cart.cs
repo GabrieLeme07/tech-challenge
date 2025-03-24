@@ -7,6 +7,6 @@ public class Cart : BaseEntity
     public DateTime Date { get; init; }
     public IEnumerable<CartProduct> Products { get; init; }
 
-    public Guid UserId { get; init; }
+    public int UserId { get; init; }
     public User User { get; init; }
 }

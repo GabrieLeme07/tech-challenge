@@ -10,8 +10,9 @@ public class SaleItemConfiguration : IEntityTypeConfiguration<SaleItem>
     {
         builder.ToTable("SaleItems");
 
-        builder.HasKey(u => u.Id);
-        builder.Property(u => u.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
+        builder.HasKey(si => si.Id);
+        builder.Property(si => si.Id)
+            .ValueGeneratedOnAdd();
 
         builder.Property(si => si.ProductId)
             .IsRequired();
