@@ -27,7 +27,7 @@ public class UpdateSaleHandler(ISaleRepository saleRepository, IDiscountReposito
         var sale = _mapper.Map<Sale>(request);
         ApplyDiscount.ApplyDiscountRules(sale, activeDiscountRules);
 
-        await _saleRepository.UpdatedAsync(sale);
+        _saleRepository.UpdatedAsync(sale);
 
         cancellationToken.ThrowIfCancellationRequested();
         var commitResponse = await Commit(_saleRepository.UnitOfWork);

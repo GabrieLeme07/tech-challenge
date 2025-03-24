@@ -137,16 +137,10 @@ public class ProductController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponseWithData<GetProductResponse>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
-    public async Task<IActionResult> GetCategoryByName([FromRoute] string name, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetCategoryByName([FromQuery] int _page, [FromQuery] int _size, [FromQuery] string _order, [FromRoute] string name, CancellationToken cancellationToken)
     {
-        var request = new GetCategoryRequest { Name = name };
-        var validator = new GetCategoryValidator();
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-        if (!validationResult.IsValid)
-            return BadRequest(validationResult.Errors);
-
-        var response = await _mediator.Send(request, cancellationToken);
+        var command = new Application.Products.GetListProduct.GetListProductCommand(GetQueryParams(name));
+        var response = await _mediator.Send(command, cancellationToken);
 
         return Ok(new ApiResponseWithData<GetProductResponse>
         {

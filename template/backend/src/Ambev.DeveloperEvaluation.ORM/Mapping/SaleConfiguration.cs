@@ -22,9 +22,6 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(s => s.CustomerId)
             .IsRequired();
 
-        builder.Property(s => s.CustomerName)
-            .IsRequired();
-
         builder.Property(s => s.BranchId)
             .IsRequired();
 

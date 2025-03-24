@@ -4,7 +4,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
 public class SaleItem : BaseEntity
 {
-    public string ProductId { get; init; }
+    public Guid ProductId { get; init; }
     public string ProductDescription { get; init; }
     public int Quantity { get; init; }
     public decimal Price { get; init; }
@@ -15,6 +15,6 @@ public class SaleItem : BaseEntity
     public void ApplyDiscount(decimal discountPercentage)
     {
         DiscountPercentage = discountPercentage;
-        TotalAmount = Price * Quantity * (1 - Quantity);
+        TotalAmount = Price * Quantity * (1 - (discountPercentage / 100));
     }
 }

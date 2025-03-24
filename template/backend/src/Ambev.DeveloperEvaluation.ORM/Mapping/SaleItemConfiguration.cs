@@ -16,9 +16,6 @@ public class SaleItemConfiguration : IEntityTypeConfiguration<SaleItem>
         builder.Property(si => si.ProductId)
             .IsRequired();
 
-        builder.Property(si => si.ProductDescription)
-            .IsRequired();
-
         builder.Property(si => si.Quantity)
             .IsRequired();
 

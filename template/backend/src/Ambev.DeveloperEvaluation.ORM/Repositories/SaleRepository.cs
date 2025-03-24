@@ -1,39 +1,35 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 
-public class SaleRepository : ISaleRepository
+public class SaleRepository : BaseRepository, ISaleRepository
 {
-    public IUnitOfWork UnitOfWork => throw new NotImplementedException();
+    public SaleRepository(DefaultContext context) : base(context) { }
 
-    public Task<Sale> CreateAsync(Sale entity)
+    public async Task<Sale> CreateAsync(Sale entity)
     {
-        throw new NotImplementedException();
+        await base.AddAsync(entity);
+        return entity;
     }
 
-    public Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var sale = await GetByIdAsync(id);
+        if (sale == null)
+            return false;
+
+        Db.Sales.Remove(sale);
+        return true;
     }
 
-    public void Dispose()
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<Sale?> GetByIdAsync(Guid id)
+        => await Db
+        .Sales
+        .Include(c => c.Items)
+        .FirstOrDefaultAsync(e => e.Id == id);
 
-    public Task<List<Sale>> GetAllAsync(int take, int skip)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Sale> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> UpdatedAsync(Sale entity)
-    {
-        throw new NotImplementedException();
-    }
+    public void UpdatedAsync(Sale entity)
+            => base.Update(entity);
 }

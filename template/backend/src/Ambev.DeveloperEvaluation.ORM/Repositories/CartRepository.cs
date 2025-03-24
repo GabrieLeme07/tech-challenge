@@ -20,7 +20,11 @@ public class CartRepository : BaseRepository, ICartRepository
         => base.Update(entity);
 
     public async Task<Cart?> GetByIdAsync(Guid id)
-        => await Db.Carts.FirstOrDefaultAsync(e => e.Id == id);
+        => await Db
+        .Carts
+        .Include(c => c.Products)
+        .ThenInclude(c => c.Product)
+        .FirstOrDefaultAsync(e => e.Id == id);
 
     public async Task<List<Cart>> GetAllAsync(Query query)
     {

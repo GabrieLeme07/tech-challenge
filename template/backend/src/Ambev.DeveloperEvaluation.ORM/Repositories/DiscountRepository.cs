@@ -1,22 +1,29 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 
-public class DiscountRepository : IDiscountRepository
+public class DiscountRepository : BaseRepository, IDiscountRepository
 {
-    public Task<Discount> CreateAsync(Discount entity)
+    public DiscountRepository(DefaultContext context) : base(context) { }
+
+    public async Task<Discount> CreateAsync(Discount entity)
     {
-        throw new NotImplementedException();
+        await base.AddAsync(entity);
+        return entity;
     }
 
-    public Task<IEnumerable<Discount>> GetAllAsync()
+    public async Task<IEnumerable<Discount>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var queryable = Db.Discounts
+            .AsNoTracking();
+
+        return await queryable.ToListAsync();
     }
 
-    public Task<Discount> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<Discount?> GetByIdAsync(Guid id)
+        => await Db
+        .Discounts
+        .FirstOrDefaultAsync(e => e.Id == id);
 }

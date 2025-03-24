@@ -1,7 +1,7 @@
 ﻿namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
 
-public class CartProductCommand
+public record CartProductCommand
 {
-    public Guid ProductId { get; set; }
-    public int Quantity { get; set; }
+    public Guid ProductId { get; init; }
+    public int Quantity { get; init; }
 }

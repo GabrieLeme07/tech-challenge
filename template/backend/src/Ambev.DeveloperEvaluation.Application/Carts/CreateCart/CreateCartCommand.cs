@@ -5,9 +5,9 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
 
 public class CreateCartCommand : IRequest<CreateCartResult>
 {
-    public Guid UserId { get; set; }
-    public DateTime Date { get; set; }
-    public List<CartProductCommand> ProductCarts { get; set; } = new List<CartProductCommand>();
+    public Guid UserId { get; init; }
+    public DateTime Date { get; init; }
+    public List<CartProductCommand> Products { get; init; } = new List<CartProductCommand>();
 
     public ValidationResultDetail Validate()
     {

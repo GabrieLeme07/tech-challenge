@@ -8,5 +8,6 @@ public class CartProduct : BaseEntity
     public Cart Cart { get; init; }
 
     public Guid ProductId { get; init; }
+    public Product Product { get; init; }
     public int Quantity { get; init; }
 }

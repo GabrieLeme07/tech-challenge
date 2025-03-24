@@ -5,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 public class Cart : BaseEntity
 {
     public DateTime Date { get; init; }
-    public IEnumerable<CartProduct> Products { get; init; } = [];
+    public IEnumerable<CartProduct> Products { get; init; }
 
     public Guid UserId { get; init; }
     public User User { get; init; }
