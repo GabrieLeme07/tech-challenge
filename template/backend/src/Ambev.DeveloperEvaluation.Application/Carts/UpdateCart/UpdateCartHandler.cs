@@ -1,5 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Carts.GetCart;
-using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
+﻿using Ambev.DeveloperEvaluation.Application.Common;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
@@ -8,17 +7,10 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart;
 
-public class UpdateCartHandler : IRequestHandler<UpdateCartCommand, UpdateCartResult>
+public class UpdateCartHandler(ICartRepository cartRepository, IMapper mapper) : CommandHandler, IRequestHandler<UpdateCartCommand, UpdateCartResult>
 {
-    private readonly ICartRepository _repository;
-    private readonly IMapper _mapper;
-    public UpdateCartHandler(
-        ICartRepository repository,
-        IMapper mapper)
-    {
-        _mapper = mapper;
-        _repository = repository;
-    }
+    private readonly ICartRepository _repository = cartRepository;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<UpdateCartResult> Handle(UpdateCartCommand request, CancellationToken cancellationToken)
     {
@@ -30,11 +22,15 @@ public class UpdateCartHandler : IRequestHandler<UpdateCartCommand, UpdateCartRe
 
         var cart = _mapper.Map<Cart>(request);
 
-        if (await _repository.UpdatedAsync(cart, cancellationToken))
-        {
-            return _mapper.Map<UpdateCartResult>(cart);
-        }
+        _repository.UpdatedAsync(cart);
 
-        throw new InvalidOperationException($"The cart can't be changed");
+        cancellationToken.ThrowIfCancellationRequested();
+        var commitResponse = await Commit(_repository.UnitOfWork);
+
+        if (!commitResponse.IsValid)
+            throw new ValidationException(commitResponse.Errors);
+
+        var result = _mapper.Map<UpdateCartResult>(cart);
+        return result;
     }
 }

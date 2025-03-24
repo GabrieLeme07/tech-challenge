@@ -14,7 +14,7 @@ public class UpdateProductResult
     public string Image { get; set; } = string.Empty;
     public Rating Rating { get; set; } = new()
     {
-        Id = 0,
+        Id = Guid.NewGuid(),
         Rate = 0,
         Count = 0
     };

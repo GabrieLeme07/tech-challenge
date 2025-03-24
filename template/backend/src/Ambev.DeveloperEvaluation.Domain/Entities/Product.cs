@@ -9,9 +9,7 @@ public class Product : BaseEntity
     public string Image { get; init; }
     public int Quantity { get; init; }
     public decimal Price { get; init; }
-    public decimal Discount { get; init; }
-    public decimal Total { get; init; }
 
-    public int RatingId { get; init; }
+    public Guid RatingId { get; init; }
     public Rating Rating { get; init; }
 }

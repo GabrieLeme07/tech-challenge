@@ -1,16 +1,13 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common;
-using MediatR;
+﻿using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetProduct;
 
 public class GetProductCommand : IRequest<GetProductResult>
 {
-    public GetProductCommand(int id, Query query)
+    public GetProductCommand(Guid id)
     {
         Id = id;
-        Query = query;
     }
 
-    public int Id { get; set; }
-    public Query Query { get; set; }
+    public Guid Id { get; set; }
 }

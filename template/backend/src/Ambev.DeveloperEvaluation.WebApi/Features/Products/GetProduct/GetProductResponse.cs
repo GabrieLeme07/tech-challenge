@@ -1,20 +1,11 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
-
-public class GetProductResponse
+public record GetProductResponse
 {
-    public string Title { get; set; } = string.Empty;
-    public decimal UnitPrice { get; set; }
-    public decimal Total { get; set; }
-    public decimal Discount { get; set; }
-    public int Quantity { get; set; }
-    public string Category { get; set; } = string.Empty;
-    public string Image { get; set; } = string.Empty;
-    public Rating Rating { get; set; } = new()
-    {
-        Id = 0,
-        Rate = 0,
-        Count = 0
-    };
+    public string Title { get; init; }
+    public decimal Price { get; init; }
+    public int Quantity { get; init; }
+    public string Category { get; init; }
+    public string Image { get; init; }
+    public GetProductRatingResponse Rating { get; init; }
 }

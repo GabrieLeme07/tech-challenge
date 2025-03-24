@@ -7,15 +7,15 @@ public class CreateProductValidator : AbstractValidator<CreateProductRequest>
     public CreateProductValidator()
     {
         RuleFor(product => product.Title)
-            .Empty()
+            .NotEmpty()
             .WithMessage($"The Title property can't be empty");
 
         RuleFor(product => product.Price)
-            .LessThanOrEqualTo(0)
+            .GreaterThan(0)
             .WithMessage($"The Unit Price can't be 0");
 
         RuleFor(product => product.Category)
-            .Empty()
+            .NotEmpty()
             .WithMessage($"The Category is required");
     }
 }

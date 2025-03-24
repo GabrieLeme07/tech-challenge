@@ -5,18 +5,10 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetProduct;
 
-public class GetProductHandler : IRequestHandler<GetProductCommand, GetProductResult>
+public class GetProductHandler(IProductRepository productRepository, IMapper mapper) : IRequestHandler<GetProductCommand, GetProductResult>
 {
-    private readonly IProductRepository _repository;
-    private readonly IMapper _mapper;
-
-    public GetProductHandler(
-        IProductRepository repository,
-        IMapper mapper)
-    {
-        _mapper = mapper;
-        _repository = repository;
-    }
+    private readonly IProductRepository _repository = productRepository;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<GetProductResult> Handle(GetProductCommand request, CancellationToken cancellationToken)
     {
@@ -26,7 +18,10 @@ public class GetProductHandler : IRequestHandler<GetProductCommand, GetProductRe
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var product = await _repository.GetByIdAsync(request.Id, cancellationToken);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var product = await _repository.GetByIdAsync(request.Id);
+
         if (product == null)
             throw new KeyNotFoundException($"Product with ID {request.Id} not found");
 

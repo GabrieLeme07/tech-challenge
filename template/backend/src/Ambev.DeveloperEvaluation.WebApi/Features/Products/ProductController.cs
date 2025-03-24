@@ -93,11 +93,26 @@ public class ProductController : BaseController
         });
     }
 
+    [HttpGet()]
+    [ProducesResponseType(typeof(ApiResponseWithData<GetProductResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetAll([FromQuery] int _page, [FromQuery] int _size, [FromQuery] string _order, CancellationToken cancellationToken)
+    {
+        var command = new Application.Products.GetListProduct.GetListProductCommand(GetQueryParams());
+
+        var result = await _mediator.Send(command, cancellationToken);
+
+        var response = result.Produtos.Select(p => _mapper.Map<GetProductResponse>(p)).ToList();
+
+        return OkPaginated(new PaginatedList<GetProductResponse>(response, result.Count, result.Page, result.Size));
+    }
+
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResponseWithData<GetProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var request = new GetProductRequest(id);
         var validator = new GetProductValidator();
@@ -106,7 +121,7 @@ public class ProductController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = new Application.Products.GetProduct.GetProductCommand(id, GetQueryParams());
+        var command = new Application.Products.GetProduct.GetProductCommand(id);
 
         var response = await _mediator.Send(command, cancellationToken);
 
@@ -131,7 +146,6 @@ public class ProductController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        //TODO: build command to this request...
         var response = await _mediator.Send(request, cancellationToken);
 
         return Ok(new ApiResponseWithData<GetProductResponse>

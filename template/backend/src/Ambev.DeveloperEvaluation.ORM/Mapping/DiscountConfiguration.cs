@@ -21,5 +21,16 @@ public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
         builder.Property(d => d.Percentage)
             .IsRequired()
             .HasColumnType("decimal(18,2)");
+
+        builder.HasData(Seed);
+    }
+
+    public IEnumerable<Discount> Seed
+    {
+        get
+        {
+            yield return new Discount { Id = new Guid("80944d57-50ea-492a-9378-27ee5673c946"), MinQuantity = 4, MaxQuantity = 9, Percentage = 10, IsActive = true };
+            yield return new Discount { Id = new Guid("637c75ab-12d4-4dab-9e7e-a32a81752f44"), MinQuantity = 10, MaxQuantity = 20, Percentage = 20, IsActive = true };
+        }
     }
 }

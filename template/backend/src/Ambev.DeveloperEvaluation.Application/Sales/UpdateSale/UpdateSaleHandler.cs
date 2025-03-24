@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Common;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -6,18 +7,11 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 
-public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleResult>
+public class UpdateSaleHandler(ISaleRepository saleRepository, IDiscountRepository discountRepository, IMapper mapper) : CommandHandler, IRequestHandler<UpdateSaleCommand, UpdateSaleResult>
 {
-    private readonly ISaleRepository _repository;
-    private readonly IMapper _mapper;
-
-    public UpdateSaleHandler(
-        ISaleRepository repository,
-        IMapper mapper)
-    {
-        _mapper = mapper;
-        _repository = repository;
-    }
+    private readonly ISaleRepository _saleRepository = saleRepository;
+    private readonly IDiscountRepository _discountRepository = discountRepository;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<UpdateSaleResult> Handle(UpdateSaleCommand request, CancellationToken cancellationToken)
     {
@@ -27,14 +21,21 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleRe
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
+        var activeDiscounts = await _discountRepository.GetAllAsync();
+        var activeDiscountRules = activeDiscounts.Where(d => d.IsActive);
+
         var sale = _mapper.Map<Sale>(request);
-        ApplyDiscount.ApplyDiscountRules(sale);
+        ApplyDiscount.ApplyDiscountRules(sale, activeDiscountRules);
 
-        if (await _repository.UpdatedAsync(sale, cancellationToken))
-        {
-            return _mapper.Map<UpdateSaleResult>(sale);
-        }
+        await _saleRepository.UpdatedAsync(sale);
 
-        throw new InvalidOperationException($"The sale can't be created");
+        cancellationToken.ThrowIfCancellationRequested();
+        var commitResponse = await Commit(_saleRepository.UnitOfWork);
+
+        if (!commitResponse.IsValid)
+            throw new ValidationException(commitResponse.Errors);
+
+        var result = _mapper.Map<UpdateSaleResult>(sale);
+        return result;
     }
 }

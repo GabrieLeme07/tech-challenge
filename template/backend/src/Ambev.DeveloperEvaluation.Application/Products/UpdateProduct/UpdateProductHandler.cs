@@ -22,7 +22,7 @@ public class UpdateProductHandler(IProductRepository repository, IMapper mapper)
 
         var product = _mapper.Map<Product>(request);
 
-        await _repository.UpdatedAsync(product);
+        _repository.UpdatedAsync(product);
 
         cancellationToken.ThrowIfCancellationRequested();
         var commitResponse = await Commit(_repository.UnitOfWork);

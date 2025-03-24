@@ -3,8 +3,8 @@
 namespace Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 public class DeleteProductCommand : IRequest<DeleteProductResult>
 {
-    public int Id { get; set; }
-    public DeleteProductCommand(int id)
+    public Guid Id { get; set; }
+    public DeleteProductCommand(Guid id)
     {
         Id = id;
     }

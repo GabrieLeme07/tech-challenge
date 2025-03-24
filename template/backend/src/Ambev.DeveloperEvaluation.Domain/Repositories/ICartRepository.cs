@@ -3,7 +3,7 @@ using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
-public interface ICartRepository
+public interface ICartRepository : IRepository<Cart>
 {
     Task<Cart> CreateAsync(Cart entity);
     void UpdatedAsync(Cart entity);

@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Common;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
@@ -18,14 +19,14 @@ public interface IProductRepository : IRepository<Product>
     /// Update a Product
     /// </summary>
     /// <param name="entity">The Product to update</param>
-    Task<bool> UpdatedAsync(Product entity);
+    void UpdatedAsync(Product entity);
 
     /// <summary>
     /// Retrieves a Product by their unique identifier
     /// </summary>
     /// <param name="id">The unique identifier of the Product</param>
     /// <returns>The Product if found, null otherwise</returns>
-    Task<Product> GetByIdAsync(int id);
+    Task<Product> GetByIdAsync(Guid id);
 
     /// <summary>
     /// Retrieves all Product
@@ -33,7 +34,7 @@ public interface IProductRepository : IRepository<Product>
     /// <param name="email">The email address to search for</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The user if found, null otherwise</returns>
-    Task<List<Product>> GetAllAsync(int take, int skip);
+    Task<List<Product>> GetAllAsync(Query query);
 
     /// <summary>
     /// Retrieves a user by their email address
@@ -41,5 +42,5 @@ public interface IProductRepository : IRepository<Product>
     /// <param name="email">The email address to search for</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The user if found, null otherwise</returns>
-    Task<bool> DeleteAsync(int id);
+    Task<bool> DeleteAsync(Guid id);
 }

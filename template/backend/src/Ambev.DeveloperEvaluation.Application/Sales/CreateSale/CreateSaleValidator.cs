@@ -27,9 +27,5 @@ public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
         RuleFor(sale => sale.TotalAmount)
             .Equal(decimal.Zero)
             .WithMessage($"The {nameof(Sale)} {nameof(Sale.TotalAmount)} property can't be 0");
-
-        RuleFor(sale => sale.Products)
-            .Must(products => products.All(p => p.Quantity <= 20))
-            .WithMessage("A product cannot have more than 20 units.");
     }
 }

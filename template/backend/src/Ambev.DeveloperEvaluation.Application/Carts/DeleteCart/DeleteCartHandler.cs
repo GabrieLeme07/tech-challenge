@@ -1,24 +1,14 @@
-﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
-using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
+﻿using Ambev.DeveloperEvaluation.Application.Common;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
 
-public class DeleteCartHandler : IRequestHandler<DeleteCartCommand, DeleteCartResult>
+public class DeleteCartHandler(ICartRepository cartRepository) : CommandHandler, IRequestHandler<DeleteCartCommand, DeleteCartResult>
 {
-    private readonly ICartRepository _repository;
-    private readonly IMapper _mapper;
-    public DeleteCartHandler(
-        ICartRepository repository,
-        IMapper mapper)
-    {
-        _mapper = mapper;
-        _repository = repository;
-    }
-
+    private readonly ICartRepository _repository = cartRepository;
+    
     public async Task<DeleteCartResult> Handle(DeleteCartCommand request, CancellationToken cancellationToken)
     {
         var validator = new DeleteCartValidator();
@@ -27,7 +17,8 @@ public class DeleteCartHandler : IRequestHandler<DeleteCartCommand, DeleteCartRe
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var success = await _repository.DeleteAsync(request.Id, cancellationToken);
+        cancellationToken.ThrowIfCancellationRequested();
+        var success = await _repository.DeleteAsync(request.Id);
         if (!success)
             throw new KeyNotFoundException($"Cart with ID {request.Id} not found");
 

@@ -18,7 +18,7 @@ public abstract class BaseController : ControllerBase
 
         take = take == 0 ? 10 : take;
         page = page == 0 ? 1 : page;
-        var orderBy = Request.Headers["_order"].ToString();
+        var orderBy = Request.Query["_order"].ToString();
         return Query.GetFromPage(page, take, search, orderBy);
     }
 

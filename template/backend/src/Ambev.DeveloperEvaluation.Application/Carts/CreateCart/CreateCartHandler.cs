@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
+﻿using Ambev.DeveloperEvaluation.Application.Common;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
@@ -7,17 +7,10 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
 
-public class CreateCartHandler : IRequestHandler<CreateCartCommand, CreateCartResult>
+public class CreateCartHandler(ICartRepository cartRepository, IMapper mapper) : CommandHandler, IRequestHandler<CreateCartCommand, CreateCartResult>
 {
-    private readonly ICartRepository _repository;
-    private readonly IMapper _mapper;
-    public CreateCartHandler(
-        ICartRepository repository,
-        IMapper mapper)
-    {
-        _mapper = mapper;
-        _repository = repository;
-    }
+    private readonly ICartRepository _repository = cartRepository;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<CreateCartResult> Handle(CreateCartCommand request, CancellationToken cancellationToken)
     {
@@ -29,7 +22,14 @@ public class CreateCartHandler : IRequestHandler<CreateCartCommand, CreateCartRe
 
         var cart = _mapper.Map<Cart>(request);
 
-        var createdCart = await _repository.CreateAsync(cart, cancellationToken);
+        var createdCart = await _repository.CreateAsync(cart);
+
+        cancellationToken.ThrowIfCancellationRequested();
+        var commitResponse = await Commit(_repository.UnitOfWork);
+
+        if (!commitResponse.IsValid)
+            throw new ValidationException(commitResponse.Errors);
+
         var result = _mapper.Map<CreateCartResult>(createdCart);
         return result;
     }
