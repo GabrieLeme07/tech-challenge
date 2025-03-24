@@ -84,6 +84,5 @@ public class CreateSaleHandler(
     {
         await _messageHandler.Publish(new ProcessSalePaymentEvent(saleNumber));
         await _messageHandler.Publish(new SaleNotificationEvent(saleNumber, customerId));
-
     }
 }
